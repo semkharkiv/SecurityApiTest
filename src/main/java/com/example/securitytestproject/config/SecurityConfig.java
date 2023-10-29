@@ -23,14 +23,18 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/").permitAll()
-                        //.requestMatchers(HttpMethod.POST,"/clients/create-user").authenticated() - мне кажется этот запрос можно всем,так как регистрация это изначальная дорога
-                        .requestMatchers(HttpMethod.POST,"/clients//{id}").authenticated()
-                        .requestMatchers(HttpMethod.POST,"/clients/createManager").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/clients/{/name}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/clients/role-{/role}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/clients/create-user").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/clients/{id}").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/clients/create-manager").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/clients/manager/{name}").hasRole("ADMIN")
                         .anyRequest().permitAll() // -это тоже не особо надо,так как у меня нету более котроллеров
                 )
                 .csrf(AbstractHttpConfigurer::disable) // -Отключает CSRF (Cross Site Request Forgery) защиту. CSRF - это тип атаки на веб-приложения, и Spring Security по умолчанию включает защиту от него.
                 .build(); // - Завершает настройку и создает SecurityFilterChain объект, который будет использоваться Spring Security для обработки запросов.
     }
+
+//    public static void main(String[] args) {
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        System.out.println(bCryptPasswordEncoder.encode("password3"));
+//    }
 }

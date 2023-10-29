@@ -20,7 +20,7 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getClientDtoById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/createManager")
+    @PostMapping("/create-manager")
     public ResponseEntity<ClientResponseDto> createClientForManager(@RequestBody ClientRequestDto clientRequestDto){
         return new ResponseEntity<>(clientService.createRequestDtoForManager(clientRequestDto),HttpStatus.CREATED);
     }
@@ -31,7 +31,7 @@ public class ClientController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{name}")
+    @DeleteMapping("/manager/{name}")
     public void deleteClientByName(@PathVariable("name") String name){
         clientService.deleteClientByName(name);
     }

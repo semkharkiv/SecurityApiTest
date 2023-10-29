@@ -1,15 +1,19 @@
 spring:
+  main:
+    banner-mode: off
+
   datasource:
-    url: jdbc:h2:file:./dataBase;AUTO_SERVER=TRUE
-    driverClassName: org.h2.Driver
-    username: sa
-    password: 1234
+    url: jdbc:mysql://localhost:3306/securityTest?createDatabaseIfNotExist=true
+    username: root
+    password: 08081995As
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
     hibernate:
       ddl-auto: update
   liquibase:
-    enabled: false
+    change-log: classpath:/database/changelog-master.xml
   sql:
     init:
       mode: always

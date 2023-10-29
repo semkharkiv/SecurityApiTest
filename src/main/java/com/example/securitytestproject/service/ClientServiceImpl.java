@@ -6,10 +6,12 @@ import com.example.securitytestproject.entity.Client;
 import com.example.securitytestproject.entity.Role;
 import com.example.securitytestproject.mapper.ClientMapper;
 import com.example.securitytestproject.repository.ClientRepository;
+import com.example.securitytestproject.repository.RoleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,20 +24,24 @@ import java.util.Set;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final RoleRepository roleRepository;
     private final ClientMapper clientMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public ClientResponseDto getClientDtoById(Long id) {
-        return clientRepository.findById(id)
-                .map(clientMapper::toDto)
-                .orElseThrow();
+        Client client = clientRepository.findById(id).get();
+        System.out.println(client);
+        return clientMapper.toDto(client);
     }
 
     @Override
     public ClientResponseDto createRequestDtoForManager(ClientRequestDto clientRequestDto) {
         Client client = clientMapper.toEntity(clientRequestDto);
-        client.setRoles(Set.of(new Role(1L,"ADMIN")));
+        Role defaultRole = roleRepository.findById(2L).orElseThrow();
+        client.setPassword(passwordEncoder.encode(clientRequestDto.getPassword()));
+        client.setRoles(Set.of(defaultRole));
         client.setCreatedAt(LocalDateTime.now());
         client.setUpdatedAt(LocalDateTime.now());
         clientRepository.save(client);
@@ -45,7 +51,9 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientResponseDto createRequestDtoForClient(ClientRequestDto clientRequestDto) {
         Client client = clientMapper.toEntity(clientRequestDto);
-        client.setRoles(Set.of(new Role(1L,"USER")));
+        Role defaultRole = roleRepository.findById(1L).orElseThrow();
+        client.setPassword(passwordEncoder.encode(clientRequestDto.getPassword()));
+        client.setRoles(Set.of(defaultRole));
         client.setCreatedAt(LocalDateTime.now());
         client.setUpdatedAt(LocalDateTime.now());
         clientRepository.save(client);
