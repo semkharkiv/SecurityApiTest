@@ -62,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteClientByName(String name) {
-        Client client = clientRepository.findClientByName(name);
+        Client client = clientRepository.findClientByName(name).get();
         if (client != null) {
             Set<Role> roles = client.getRoles();
             for (Role role : roles) {
@@ -76,8 +76,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Client> clientOptional = clientRepository.findClientByEmail(email);
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        Optional<Client> clientOptional = clientRepository.findClientByName(name);
         if (clientOptional.isEmpty()) {
             throw new UsernameNotFoundException("No such name");
         }

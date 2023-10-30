@@ -58,7 +58,7 @@ public class Client implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return email;
+        return name;
     }
 
     @Override
