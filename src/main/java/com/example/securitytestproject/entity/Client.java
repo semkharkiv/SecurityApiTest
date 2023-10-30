@@ -58,7 +58,7 @@ public class Client implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return email;
+        return name;
     }
 
     @Override
@@ -86,11 +86,11 @@ public class Client implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return Objects.equals(email, client.email);
+        return Objects.equals(name, client.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(name);
     }
 }
