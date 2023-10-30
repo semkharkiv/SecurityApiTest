@@ -16,7 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Client implements UserDetails {
 
     @Id
@@ -53,12 +52,12 @@ public class Client implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
-    @Override
     public String getUsername() {
         return name;
+    }
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

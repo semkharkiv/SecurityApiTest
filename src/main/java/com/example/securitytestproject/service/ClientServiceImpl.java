@@ -32,7 +32,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientResponseDto getClientDtoById(Long id) {
         Client client = clientRepository.findById(id).get();
-        System.out.println(client);
         return clientMapper.toDto(client);
     }
 

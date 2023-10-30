@@ -33,20 +33,6 @@ public class Role implements GrantedAuthority {
     private Set<Client> users;
 
     @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public Role(Long id, String name, Set<Client> users) {
-        this.id = id;
-        this.name = name;
-        this.users = users;
-    }
-
-    @Override
     public String getAuthority() {
         return name;
     }
