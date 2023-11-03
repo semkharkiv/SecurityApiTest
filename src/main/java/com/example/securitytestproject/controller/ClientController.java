@@ -16,23 +16,23 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientResponseDto> getClientById(@PathVariable("id") Long id){
+    public ResponseEntity<ClientResponseDto> getClientById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(clientService.getClientDtoById(id), HttpStatus.OK);
     }
 
     @PostMapping("/create-manager")
-    public ResponseEntity<ClientResponseDto> createClientForManager(@RequestBody ClientRequestDto clientRequestDto){
-        return new ResponseEntity<>(clientService.createRequestDtoForManager(clientRequestDto),HttpStatus.CREATED);
+    public ResponseEntity<ClientResponseDto> createClientForManager(@RequestBody ClientRequestDto clientRequestDto) {
+        return new ResponseEntity<>(clientService.createRequestDtoForManager(clientRequestDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/create-user")
-    public ResponseEntity<ClientResponseDto> createClientForUser(@RequestBody ClientRequestDto clientRequestDto){
-        return new ResponseEntity<>(clientService.createRequestDtoForClient(clientRequestDto),HttpStatus.CREATED);
+    public ResponseEntity<ClientResponseDto> createClientForUser(@RequestBody ClientRequestDto clientRequestDto) {
+        return new ResponseEntity<>(clientService.createRequestDtoForClient(clientRequestDto), HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/manager/{name}")
-    public void deleteClientByName(@PathVariable("name") String name){
+    public void deleteClientByName(@PathVariable("name") String name) {
         clientService.deleteClientByName(name);
     }
 

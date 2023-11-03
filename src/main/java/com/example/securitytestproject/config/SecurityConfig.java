@@ -3,6 +3,7 @@ package com.example.securitytestproject.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,23 +19,19 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean //- Этот аннотированный метод создает и возвращает объект SecurityFilterChain.
+    @Bean
     public SecurityFilterChain defaultSecurity(HttpSecurity http) throws Exception {
         return http
+                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/clients/create-user").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/clients/{id}").authenticated()
-                        .requestMatchers(HttpMethod.POST,"/clients/create-manager").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/clients/manager/{name}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/clients/create-user").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/clients/{id}").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/clients/create-manager").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/clients/manager/{name}").hasRole("ADMIN")
                         .anyRequest().permitAll() // -это тоже не особо надо,так как у меня нету более котроллеров
                 )
-                .csrf(AbstractHttpConfigurer::disable) // -Отключает CSRF (Cross Site Request Forgery) защиту. CSRF - это тип атаки на веб-приложения, и Spring Security по умолчанию включает защиту от него.
-                .build(); // - Завершает настройку и создает SecurityFilterChain объект, который будет использоваться Spring Security для обработки запросов.
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
     }
-
-//    public static void main(String[] args) {
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        System.out.println(bCryptPasswordEncoder.encode("password"));
-//    }
 }

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
-    @Mapping(source = "client.roles", target = "role",qualifiedByName = "mapRoles")
+    @Mapping(source = "client.roles", target = "role", qualifiedByName = "mapRoles")
     ClientResponseDto toDto(Client client);
 
     Client toEntity(ClientRequestDto clientRequestDto);
@@ -21,6 +21,7 @@ public interface ClientMapper {
     @Named("mapRoles")
     default String mapRoles(Set<Role> roles) {
         return roles.stream()
-                .map(Role::getName) // Предположим, что у Role есть метод getName() для получения имени роли
-                .collect(Collectors.joining(", "));}
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+    }
 }
